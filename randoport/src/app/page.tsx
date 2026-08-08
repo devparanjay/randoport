@@ -12,6 +12,8 @@ export default function Home() {
   const [range, setRange] = useState<"registered" | "ephemeral">("registered");
   const [count, setCount] = useState<number>(1);
   const [ports, setPorts] = useState<number[]>([]);
+  const [copiedPort, setCopiedPort] = useState<number | null>(null);
+  const [copiedAll, setCopiedAll] = useState(false);
 
   const generatePorts = () => {
     const min = range === "registered" ? 1024 : 49152;
@@ -25,10 +27,20 @@ export default function Home() {
       }
     }
     setPorts(Array.from(generated));
+    setCopiedPort(null);
+    setCopiedAll(false);
   };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(ports.join(", "));
+    setCopiedAll(true);
+    setTimeout(() => setCopiedAll(false), 2000);
+  };
+
+  const copySinglePort = (port: number) => {
+    navigator.clipboard.writeText(port.toString());
+    setCopiedPort(port);
+    setTimeout(() => setCopiedPort(null), 2000);
   };
 
   return (
@@ -129,18 +141,25 @@ export default function Home() {
                 className="flex items-center gap-2 text-[#00f2ff] hover:text-[#00dce8] text-sm font-mono transition-colors border border-[#00f2ff] px-3 py-1 rounded"
               >
                 <Copy size={14} />
-                Copy all
+                {copiedAll ? "Copied!" : "Copy all"}
               </button>
             </div>
 
             <div className="flex flex-wrap gap-4">
               {ports.map((port, index) => (
-                <div
+                <button
                   key={index}
-                  className="bg-transparent border border-[#27272a] border-l-2 border-l-[#00f2ff] px-6 py-4 font-mono text-xl text-[#e5e1e4] flex-1 min-w-[140px] text-center"
+                  onClick={() => copySinglePort(port)}
+                  className="relative group bg-transparent border border-[#27272a] hover:border-[#00f2ff] border-l-2 border-l-[#00f2ff] px-6 py-4 font-mono text-xl text-[#e5e1e4] hover:text-[#00f2ff] flex-1 min-w-[140px] text-center transition-colors cursor-pointer"
+                  title="Click to copy"
                 >
                   {port}
-                </div>
+                  {copiedPort === port && (
+                    <span className="absolute -top-3 right-2 bg-[#00f2ff] text-black text-[10px] px-2 py-0.5 font-bold tracking-wider">
+                      COPIED
+                    </span>
+                  )}
+                </button>
               ))}
             </div>
           </div>
