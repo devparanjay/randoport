@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Copy, Activity, Zap, Info, ShieldAlert } from "lucide-react";
 import Image from "next/image";
 
@@ -17,6 +17,7 @@ export default function Home() {
   const [ports, setPorts] = useState<number[]>([]);
   const [copiedPort, setCopiedPort] = useState<number | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const generatePorts = () => {
     const min = range === "registered" ? 1024 : 49152;
@@ -32,6 +33,11 @@ export default function Home() {
     setPorts(Array.from(generated));
     setCopiedPort(null);
     setCopiedAll(false);
+
+    // Auto-scroll to results
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const copyToClipboard = () => {
@@ -58,7 +64,7 @@ export default function Home() {
       >
         <span className="font-mono text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#121214] px-3 py-1.5 border border-[#27272a] shadow-lg rounded">Star on GitHub</span>
         <div className="hover:scale-110 transition-transform duration-200 shadow-xl rounded-full overflow-hidden border-2 border-transparent hover:border-[#00f2ff]">
-           <Image src="/icons/github.png" alt="GitHub" width={56} height={56} className="bg-transparent" />
+           <Image src="/icons/github.png" alt="GitHub" width={56} height={56} className="bg-transparent" unoptimized />
         </div>
       </a>
 
@@ -89,7 +95,7 @@ export default function Home() {
                 <div className="text-[#849495] text-sm flex items-start gap-2 bg-[#121214] p-3 border-l-2 border-[#00ff41]">
                   <ShieldAlert size={16} className="text-[#00ff41] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#e5e1e4] font-medium">Automatic Conflict Avoidance:</span> randoport automatically excludes ports reserved by the system, common applications, dev services, and utilities. It adheres to conventions and consults registries such as the <a href="https://www.iana.org/assignments/service-names-port-numbers" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">IANA Service Name and Transport Protocol Port Number Registry</a> to ensure the generated ports are safe to use.
+                    <span className="text-[#e5e1e4] font-medium">Automatic Conflict Avoidance:</span> randoport automatically excludes ports reserved by the system, common applications, dev services, and utilities. It adheres to conventions (like PostgreSQL on 5432, MySQL on 3306, Redis on 6379, and standard web/React servers on 3000, 8080) and consults registries such as the <a href="https://www.iana.org/assignments/service-names-port-numbers" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">IANA Service Name and Transport Protocol Port Number Registry</a> to ensure the generated ports are safe to use.
                   </div>
                 </div>
              </div>
@@ -172,7 +178,7 @@ export default function Home() {
 
         {/* Results Area */}
         {ports.length > 0 && (
-          <div className="mt-16 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-7xl mx-auto px-4">
+          <div ref={resultsRef} className="mt-16 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-7xl mx-auto px-4">
             <div className="flex justify-between items-center mb-6">
               <h3 className="font-mono text-sm text-[#849495] tracking-wider uppercase flex items-center gap-2">
                 <Activity size={16} className="text-[#00f2ff]" />
