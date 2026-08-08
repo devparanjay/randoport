@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Activity, Zap } from "lucide-react";
+import { Copy, Activity, Zap, Info } from "lucide-react";
 
 const COMMON_PORTS = new Set([
   20, 21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 445, 993, 995, 1723, 3306,
@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center min-h-screen bg-[#0a0a0c] p-0 m-0">
-      <div className="w-full flex flex-col pt-32 lg:pt-48 pb-20 px-8 max-w-7xl">
+      <div className="w-full flex flex-col pt-24 lg:pt-36 pb-20 px-8 max-w-7xl">
 
         {/* Header Section */}
         <div className="text-center mb-10 w-full flex flex-col items-center justify-center">
@@ -62,10 +62,19 @@ export default function Home() {
             {/* Horizontal Line separating header */}
            <div className="w-full h-px bg-[#27272a] absolute -top-4 left-0 right-0 hidden"></div>
 
-           <div className="w-full border-t border-[#27272a] pt-1 pb-1">
-             <label className="font-mono text-[13px] tracking-wider text-[#849495] uppercase pl-1">
-                PORT RANGE
-              </label>
+           <div className="w-full border-t border-[#27272a] pt-4 pb-2">
+             <div className="flex flex-col gap-2 pl-1 mb-2">
+               <label className="font-mono text-[13px] tracking-wider text-[#849495] uppercase">
+                  PORT RANGE
+                </label>
+                <div className="text-[#849495] text-sm flex items-start gap-2 bg-[#121214] p-3 border-l-2 border-[#00f2ff]">
+                  <Info size={16} className="text-[#00f2ff] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-[#e5e1e4] font-medium">Registered (1024-49151):</span> Ideal for specific services that need to be consistently accessible (e.g., a local database or dev server). <br/>
+                    <span className="text-[#e5e1e4] font-medium mt-1 inline-block">Ephemeral (49152-65535):</span> Best for short-lived, temporary connections or when you want to absolutely avoid any potential system conflict.
+                  </div>
+                </div>
+             </div>
            </div>
 
            {/* Range Selection */}
@@ -75,8 +84,8 @@ export default function Home() {
               onClick={() => setRange("registered")}
               className={`flex-1 flex flex-col items-center justify-center py-4 border-r border-[#27272a] transition-all duration-200 ${
                 range === "registered"
-                  ? "border border-[#00f2ff] bg-transparent text-[#00f2ff] z-10 -m-[1px]"
-                  : "text-[#849495] hover:text-[#00f2ff]"
+                  ? "border border-[#00f2ff] bg-[#121214] text-[#00f2ff] z-10 -m-[1px]"
+                  : "text-[#849495] hover:text-[#00f2ff] bg-transparent"
               }`}
              >
                 <span className={`font-mono text-sm tracking-wider ${range === "registered" ? "text-[#00f2ff]" : "text-[#849495]"}`}>Registered</span>
@@ -88,8 +97,8 @@ export default function Home() {
               onClick={() => setRange("ephemeral")}
               className={`flex-1 flex flex-col items-center justify-center py-4 transition-all duration-200 ${
                 range === "ephemeral"
-                  ? "border border-[#00f2ff] bg-transparent text-[#00f2ff] z-10 -m-[1px]"
-                  : "text-[#849495] hover:text-[#00f2ff]"
+                  ? "border border-[#00f2ff] bg-[#121214] text-[#00f2ff] z-10 -m-[1px]"
+                  : "text-[#849495] hover:text-[#00f2ff] bg-transparent"
               }`}
              >
                 <span className={`font-mono text-sm tracking-wider ${range === "ephemeral" ? "text-[#00f2ff]" : "text-[#849495]"}`}>Ephemeral</span>
@@ -98,29 +107,29 @@ export default function Home() {
            </div>
 
            {/* Number of Ports Label */}
-           <div className="w-full pt-1 pb-1">
+           <div className="w-full pt-4 pb-2">
              <label className="font-mono text-[13px] tracking-wider text-[#849495] uppercase pl-1">
                 NUMBER OF PORTS
               </label>
            </div>
 
            {/* Number of Ports Input */}
-           <div className="w-full border-y border-[#27272a]">
+           <div className="w-full">
               <input
                 type="number"
                 min="1"
                 max="100"
                 value={count}
                 onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-full bg-[#0a0a0c] text-[#e5e1e4] font-mono text-sm py-3 px-3 border-none focus:outline-none focus:ring-0"
+                className="w-full bg-[#121214] text-[#e5e1e4] font-mono text-lg py-4 px-4 border border-[#27272a] focus:outline-none focus:border-[#00f2ff] focus:ring-1 focus:ring-[#00f2ff] transition-all shadow-inner"
               />
            </div>
 
            {/* Find Ports Button */}
-           <div className="w-full mt-[1px]">
+           <div className="w-full mt-4">
              <button
               onClick={generatePorts}
-              className="w-full bg-[#00f2ff] hover:bg-[#00dce8] text-black py-4 flex items-center justify-center gap-2 transition-all shadow-[0_0_10px_rgba(0,242,255,0.4)]"
+              className="w-full bg-[#00f2ff] hover:bg-[#00dce8] text-black py-4 flex items-center justify-center gap-2 transition-all shadow-[0_0_10px_rgba(0,242,255,0.4)] rounded-sm"
              >
               <Zap size={18} strokeWidth={2.5}/>
               <span className="font-mono text-[13px] font-bold tracking-wider">Find Ports</span>
