@@ -95,7 +95,7 @@ export default function Home() {
                 <div className="text-[#849495] text-sm flex items-start gap-2 bg-[#121214] p-3 border-l-2 border-[#00ff41]">
                   <ShieldAlert size={16} className="text-[#00ff41] shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[#e5e1e4] font-medium">Automatic Conflict Avoidance:</span> randoport automatically excludes ports reserved by the system, common applications, dev services, and utilities. It adheres to conventions (like PostgreSQL on 5432, MySQL on 3306, Redis on 6379, and standard web/React servers on 3000, 8080) and consults registries such as the <a href="https://www.iana.org/assignments/service-names-port-numbers" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">IANA Service Name and Transport Protocol Port Number Registry</a> to ensure the generated ports are safe to use.
+                    <span className="text-[#e5e1e4] font-medium">Automatic Conflict Avoidance:</span> randoport automatically excludes ports reserved by the system, common applications, dev services, and utilities. It actively avoids default ports used by common services (like PostgreSQL on 5432, MySQL on 3306, Redis on 6379, and standard web/React servers on 3000, 8080) and consults registries such as the <a href="https://www.iana.org/assignments/service-names-port-numbers" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">IANA Service Name and Transport Protocol Port Number Registry</a> to ensure the generated ports are safe to use.
                   </div>
                 </div>
              </div>
