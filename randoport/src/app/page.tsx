@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Terminal, Activity, Zap } from "lucide-react";
+import { Copy, Activity, Zap } from "lucide-react";
 
 const COMMON_PORTS = new Set([
   20, 21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 445, 993, 995, 1723, 3306,
@@ -29,121 +29,123 @@ export default function Home() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(ports.join(", "));
-    // You could add a toast notification here
   };
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-8">
-      {/* Top Navigation */}
-      <nav className="w-full max-w-7xl absolute top-0 p-6 flex justify-between items-center border-b border-[var(--border)]">
-        <div className="flex items-center gap-2">
-          <Terminal className="text-[var(--primary)]" />
-          <span className="heading-font text-xl font-bold tracking-tight text-[var(--text-primary)]">randoport</span>
+    <main className="flex flex-col items-center min-h-screen bg-[#0a0a0c] p-0 m-0">
+      <div className="w-full flex flex-col pt-32 lg:pt-48 pb-20 px-8 max-w-7xl">
+
+        {/* Header Section */}
+        <div className="text-center mb-10 w-full flex flex-col items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#00f2ff] tracking-tight mb-4">
+            randoport
+          </h1>
+          <p className="text-[#849495] text-base md:text-lg font-sans">
+            Generate secure, random network ports instantly for development, testing, and production.
+          </p>
         </div>
-        <div className="flex gap-4">
-           {/* Add links if needed */}
+
+        {/* Configuration Section - Full Width Edge to Edge Style */}
+        <div className="w-full relative mt-4">
+            {/* Horizontal Line separating header */}
+           <div className="w-full h-px bg-[#27272a] absolute -top-4 left-0 right-0 hidden"></div>
+
+           <div className="w-full border-t border-[#27272a] pt-1 pb-1">
+             <label className="font-mono text-[13px] tracking-wider text-[#849495] uppercase pl-1">
+                PORT RANGE
+              </label>
+           </div>
+
+           {/* Range Selection */}
+           <div className="w-full flex border-y border-[#27272a] bg-[#0a0a0c]">
+             {/* Left Option (Registered) */}
+             <button
+              onClick={() => setRange("registered")}
+              className={`flex-1 flex flex-col items-center justify-center py-4 border-r border-[#27272a] transition-all duration-200 ${
+                range === "registered"
+                  ? "border border-[#00f2ff] bg-transparent text-[#00f2ff] z-10 -m-[1px]"
+                  : "text-[#849495] hover:text-[#00f2ff]"
+              }`}
+             >
+                <span className={`font-mono text-sm tracking-wider ${range === "registered" ? "text-[#00f2ff]" : "text-[#849495]"}`}>Registered</span>
+                <span className={`font-mono text-xs opacity-80 mt-1 ${range === "registered" ? "text-[#00f2ff]" : "text-[#849495]"}`}>1024 - 49151</span>
+             </button>
+
+             {/* Right Option (Ephemeral) */}
+             <button
+              onClick={() => setRange("ephemeral")}
+              className={`flex-1 flex flex-col items-center justify-center py-4 transition-all duration-200 ${
+                range === "ephemeral"
+                  ? "border border-[#00f2ff] bg-transparent text-[#00f2ff] z-10 -m-[1px]"
+                  : "text-[#849495] hover:text-[#00f2ff]"
+              }`}
+             >
+                <span className={`font-mono text-sm tracking-wider ${range === "ephemeral" ? "text-[#00f2ff]" : "text-[#849495]"}`}>Ephemeral</span>
+                <span className={`font-mono text-xs opacity-80 mt-1 ${range === "ephemeral" ? "text-[#00f2ff]" : "text-[#849495]"}`}>49152 - 65535</span>
+             </button>
+           </div>
+
+           {/* Number of Ports Label */}
+           <div className="w-full pt-1 pb-1">
+             <label className="font-mono text-[13px] tracking-wider text-[#849495] uppercase pl-1">
+                NUMBER OF PORTS
+              </label>
+           </div>
+
+           {/* Number of Ports Input */}
+           <div className="w-full border-y border-[#27272a]">
+              <input
+                type="number"
+                min="1"
+                max="100"
+                value={count}
+                onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
+                className="w-full bg-[#0a0a0c] text-[#e5e1e4] font-mono text-sm py-3 px-3 border-none focus:outline-none focus:ring-0"
+              />
+           </div>
+
+           {/* Find Ports Button */}
+           <div className="w-full mt-[1px]">
+             <button
+              onClick={generatePorts}
+              className="w-full bg-[#00f2ff] hover:bg-[#00dce8] text-black py-4 flex items-center justify-center gap-2 transition-all shadow-[0_0_10px_rgba(0,242,255,0.4)]"
+             >
+              <Zap size={18} strokeWidth={2.5}/>
+              <span className="font-mono text-[13px] font-bold tracking-wider">Find Ports</span>
+             </button>
+           </div>
         </div>
-      </nav>
 
-      {/* Hero Section */}
-      <div className="text-center mt-20 mb-12">
-        <h1 className="heading-font text-5xl md:text-6xl font-bold text-[var(--text-primary)] mb-4">
-          <span className="text-[var(--primary)]">randoport</span>
-        </h1>
-        <p className="text-[var(--text-secondary)] text-lg max-w-md mx-auto">
-          Generate secure, random network ports instantly for development, testing, and production.
-        </p>
-      </div>
-
-      {/* Configuration Form */}
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-8 max-w-xl w-full shadow-2xl relative overflow-hidden">
-        {/* Glow effect */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-[var(--primary)] blur-[10px] opacity-30"></div>
-
-        <div className="space-y-6 relative z-10">
-          <div>
-            <label className="block mono-font text-xs font-bold text-[var(--text-secondary)] mb-3 tracking-widest uppercase">
-              Port Range
-            </label>
-            <div className="grid grid-cols-2 gap-4">
+        {/* Results Area */}
+        {ports.length > 0 && (
+          <div className="mt-16 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-7xl mx-auto px-4">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-mono text-sm text-[#849495] tracking-wider uppercase flex items-center gap-2">
+                <Activity size={16} className="text-[#00f2ff]" />
+                GENERATED PORTS
+              </h3>
               <button
-                onClick={() => setRange("registered")}
-                className={`py-3 px-4 rounded-lg mono-font text-sm border transition-all duration-200 ${
-                  range === "registered"
-                    ? "bg-[#1c1c1f] border-[var(--primary)] text-[var(--primary)] shadow-[0_0_15px_rgba(0,242,255,0.1)]"
-                    : "bg-[var(--background)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
-                }`}
+                onClick={copyToClipboard}
+                className="flex items-center gap-2 text-[#00f2ff] hover:text-[#00dce8] text-sm font-mono transition-colors border border-[#00f2ff] px-3 py-1 rounded"
               >
-                Registered
-                <div className="text-xs opacity-70 mt-1">1024 - 49151</div>
-              </button>
-              <button
-                onClick={() => setRange("ephemeral")}
-                className={`py-3 px-4 rounded-lg mono-font text-sm border transition-all duration-200 ${
-                  range === "ephemeral"
-                    ? "bg-[#1c1c1f] border-[var(--primary)] text-[var(--primary)] shadow-[0_0_15px_rgba(0,242,255,0.1)]"
-                    : "bg-[var(--background)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--primary)] hover:text-[var(--primary)]"
-                }`}
-              >
-                Ephemeral
-                <div className="text-xs opacity-70 mt-1">49152 - 65535</div>
+                <Copy size={14} />
+                Copy all
               </button>
             </div>
-          </div>
 
-          <div>
-            <label className="block mono-font text-xs font-bold text-[var(--text-secondary)] mb-3 tracking-widest uppercase">
-              Number of Ports
-            </label>
-            <input
-              type="number"
-              min="1"
-              max="100"
-              value={count}
-              onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-full bg-[var(--background)] border border-[var(--border)] rounded-lg py-3 px-4 text-[var(--text-primary)] mono-font focus:outline-none focus:border-[var(--primary)] focus:shadow-[inset_0_0_4px_rgba(0,242,255,0.5)] transition-all"
-            />
+            <div className="flex flex-wrap gap-4">
+              {ports.map((port, index) => (
+                <div
+                  key={index}
+                  className="bg-transparent border border-[#27272a] border-l-2 border-l-[#00f2ff] px-6 py-4 font-mono text-xl text-[#e5e1e4] flex-1 min-w-[140px] text-center"
+                >
+                  {port}
+                </div>
+              ))}
+            </div>
           </div>
-
-          <button
-            onClick={generatePorts}
-            className="w-full bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-black font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(0,242,255,0.4)] mt-4"
-          >
-            <Zap size={20} />
-            <span className="heading-font text-lg">Find Ports</span>
-          </button>
-        </div>
+        )}
       </div>
-
-      {/* Results Area */}
-      {ports.length > 0 && (
-        <div className="mt-12 w-full max-w-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="mono-font text-sm font-bold text-[var(--text-secondary)] flex items-center gap-2">
-              <Activity size={16} className="text-[var(--secondary)]" />
-              GENERATED PORTS
-            </h3>
-            <button
-              onClick={copyToClipboard}
-              className="flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary-hover)] text-sm mono-font transition-colors"
-            >
-              <Copy size={16} />
-              Copy all
-            </button>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            {ports.map((port, index) => (
-              <div
-                key={index}
-                className="bg-[#121214] border-t-2 border-[var(--secondary)] px-4 py-3 rounded-md mono-font text-lg text-[var(--text-primary)] flex-1 min-w-[120px] text-center shadow-lg"
-              >
-                {port}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </main>
   );
 }
