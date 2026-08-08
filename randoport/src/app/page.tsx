@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Activity, Zap, Info } from "lucide-react";
+import { Copy, Activity, Zap, Info, ShieldAlert, GitBranch } from "lucide-react";
 
+// Expanded list of common/reserved ports based on IANA and conventions
 const COMMON_PORTS = new Set([
   20, 21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 445, 993, 995, 1723, 3306,
-  3389, 5900, 8080, 5432, 6379, 27017, 3000, 4200, 5000, 8000
+  3389, 5900, 8080, 5432, 6379, 27017, 3000, 4200, 5000, 8000, 8081, 8443, 9000, 9200,
+  9300, 11211, 27018, 5672, 15672
 ]);
 
 export default function Home() {
@@ -44,8 +46,20 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center min-h-screen bg-[#0a0a0c] p-0 m-0">
-      <div className="w-full flex flex-col pt-24 lg:pt-36 pb-20 px-8 max-w-7xl">
+    <main className="flex flex-col items-center min-h-screen bg-[#0a0a0c] p-0 m-0 relative">
+
+      {/* GitHub Badge */}
+      <a
+        href="https://github.com/devparanjay/randoport"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-6 right-6 md:top-8 md:right-8 text-[#849495] hover:text-[#00f2ff] transition-colors flex items-center gap-2 group"
+      >
+        <span className="font-mono text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">Star on GitHub</span>
+        <GitBranch size={24} />
+      </a>
+
+      <div className="w-full flex flex-col flex-1 pt-24 lg:pt-36 pb-20 px-8 max-w-7xl">
 
         {/* Header Section */}
         <div className="text-center mb-10 w-full flex flex-col items-center justify-center">
@@ -61,6 +75,21 @@ export default function Home() {
         <div className="w-full relative mt-4">
             {/* Horizontal Line separating header */}
            <div className="w-full h-px bg-[#27272a] absolute -top-4 left-0 right-0 hidden"></div>
+
+           {/* Exclusion Information Section */}
+           <div className="w-full border-t border-[#27272a] pt-4 pb-4">
+             <div className="flex flex-col gap-2 pl-1 mb-2">
+               <label className="font-mono text-[13px] tracking-wider text-[#849495] uppercase">
+                  SAFE GENERATION
+                </label>
+                <div className="text-[#849495] text-sm flex items-start gap-2 bg-[#121214] p-3 border-l-2 border-[#00ff41]">
+                  <ShieldAlert size={16} className="text-[#00ff41] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-[#e5e1e4] font-medium">Automatic Conflict Avoidance:</span> randoport automatically excludes ports reserved by the system, common applications, dev services, and utilities. It adheres to conventions and consults registries such as the <a href="https://www.iana.org/assignments/service-names-port-numbers" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">IANA Service Name and Transport Protocol Port Number Registry</a> to ensure the generated ports are safe to use.
+                  </div>
+                </div>
+             </div>
+           </div>
 
            <div className="w-full border-t border-[#27272a] pt-4 pb-2">
              <div className="flex flex-col gap-2 pl-1 mb-2">
@@ -174,6 +203,16 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Footer Section */}
+      <footer className="w-full border-t border-[#27272a] py-6 text-center text-[#849495] font-sans text-sm mt-auto">
+        <p>
+          &copy; {new Date().getFullYear()} randoport. All rights reserved by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">devparanjay</a>.
+        </p>
+        <p className="mt-1">
+          A small tool for development security developed by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">@devparanjay</a>.
+        </p>
+      </footer>
     </main>
   );
 }
