@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Activity, Zap, Info, ShieldAlert, GitBranch } from "lucide-react";
+import { Copy, Activity, Zap, Info, ShieldAlert } from "lucide-react";
+import Image from "next/image";
 
 // Expanded list of common/reserved ports based on IANA and conventions
 const COMMON_PORTS = new Set([
@@ -56,7 +57,7 @@ export default function Home() {
         className="absolute top-6 right-6 md:top-8 md:right-8 text-[#849495] hover:text-[#00f2ff] transition-colors flex items-center gap-2 group"
       >
         <span className="font-mono text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">Star on GitHub</span>
-        <GitBranch size={24} />
+        <Image src="/icons/github.png" alt="GitHub" width={32} height={32} />
       </a>
 
       <div className="w-full flex flex-col flex-1 pt-24 lg:pt-36 pb-20 px-8 max-w-7xl">
@@ -205,12 +206,15 @@ export default function Home() {
       </div>
 
       {/* Footer Section */}
-      <footer className="w-full border-t border-[#27272a] py-6 text-center text-[#849495] font-sans text-sm mt-auto">
+      <footer className="w-full border-t border-[#27272a] py-6 text-center text-[#849495] font-sans text-sm mt-auto flex flex-col gap-1 items-center justify-center">
         <p>
           &copy; {new Date().getFullYear()} randoport. All rights reserved by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">devparanjay</a>.
         </p>
-        <p className="mt-1">
+        <p>
           A small tool for development security developed by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">@devparanjay</a>.
+        </p>
+        <p className="text-xs text-[#52525b] mt-2">
+          <a target="_blank" href="https://icons8.com/icon/akG4VRhAoSii/github" rel="noopener noreferrer" className="hover:text-[#849495] transition-colors">GitHub</a> icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer" className="hover:text-[#849495] transition-colors">Icons8</a>
         </p>
       </footer>
     </main>
