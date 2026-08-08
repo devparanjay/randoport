@@ -49,18 +49,21 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center min-h-screen bg-[#0a0a0c] p-0 m-0 relative">
 
-      {/* GitHub Badge */}
+      {/* GitHub Badge - Fixed Position overlay */}
       <a
         href="https://github.com/devparanjay/randoport"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-6 right-6 md:top-8 md:right-8 text-[#849495] hover:text-[#00f2ff] transition-colors flex items-center gap-2 group"
+        className="fixed top-6 right-6 md:top-8 md:right-8 z-50 text-[#849495] hover:text-[#00f2ff] transition-colors flex items-center gap-3 group"
       >
-        <span className="font-mono text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">Star on GitHub</span>
-        <Image src="/icons/github.png" alt="GitHub" width={32} height={32} />
+        <span className="font-mono text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#121214] px-3 py-1.5 border border-[#27272a] shadow-lg rounded">Star on GitHub</span>
+        <div className="hover:scale-110 transition-transform duration-200 shadow-xl rounded-full overflow-hidden border-2 border-transparent hover:border-[#00f2ff]">
+           <Image src="/icons/github.png" alt="GitHub" width={56} height={56} className="bg-transparent" />
+        </div>
       </a>
 
-      <div className="w-full flex flex-col flex-1 pt-24 lg:pt-36 pb-20 px-8 max-w-7xl">
+      {/* Adjusted Top Spacing padding */}
+      <div className="w-full flex flex-col flex-1 pt-12 lg:pt-16 pb-20 px-8 max-w-7xl">
 
         {/* Header Section */}
         <div className="text-center mb-10 w-full flex flex-col items-center justify-center">
