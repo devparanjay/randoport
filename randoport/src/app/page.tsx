@@ -217,10 +217,10 @@ export default function Home() {
       {/* Footer Section */}
       <footer className="w-full border-t border-[#27272a] py-6 text-center text-[#849495] font-sans text-sm mt-auto flex flex-col gap-1 items-center justify-center">
         <p>
-          &copy; {new Date().getFullYear()} randoport. All rights reserved by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">devparanjay</a>.
+          A small tool for security in development.
         </p>
-        <p>
-          A small tool for development security developed by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">@devparanjay</a>.
+        <p className="mt-1">
+          &copy; {new Date().getFullYear()} randoport. All rights reserved by <a href="https://github.com/devparanjay" target="_blank" rel="noopener noreferrer" className="text-[#00f2ff] hover:underline">devparanjay</a>.
         </p>
         <p className="text-xs text-[#52525b] mt-2">
           <a target="_blank" href="https://icons8.com/icon/akG4VRhAoSii/github" rel="noopener noreferrer" className="hover:text-[#849495] transition-colors">GitHub</a> icon by <a target="_blank" href="https://icons8.com" rel="noopener noreferrer" className="hover:text-[#849495] transition-colors">Icons8</a>
